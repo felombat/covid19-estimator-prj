@@ -35,7 +35,7 @@ function covid19ImpactEstimator($data)
 
  
   
-  $_data = json_decode($data);
+  $_data = (object) $data;
 
   $result = new stdClass(); 
   $result->data         = new stdClass();
