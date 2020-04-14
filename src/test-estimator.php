@@ -104,7 +104,7 @@ $data = '{   "region":{
 
   //$_data = json_encode($data);
 
-$res = covid19ImpactEstimator($data); 
+$res = covid19ImpactEstimator(json_decode($data)); 
 
 $page = <<<EOF
 <pre> $res  </pre>
