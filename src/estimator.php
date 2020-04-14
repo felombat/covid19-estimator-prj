@@ -50,7 +50,7 @@ function covid19ImpactEstimator($data)
   //   exit(1);
   // }
 
-  $result->data = $_data;
+  $result->data = $data;
   $result->impact->currentlyIntfected = $_data->reportedCases * 10; 
   $result->severeImpact->currentlyIntfected = $_data->reportedCases * 50; 
 
