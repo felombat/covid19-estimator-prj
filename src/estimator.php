@@ -57,20 +57,20 @@ function covid19ImpactEstimator($data)
   if($result->data->periodType =="months"){
     $days = $_data->timeToElapse * 30;
     $factor = floor($days / 3);
-    $result->impact->infectionsByRequestedTime = $result->impact->currentlyIntfected * $factor;
-    $result->severeImpact->infectionsByRequestedTime = $result->severeImpact->currentlyIntfected * $factor; 
+    $result->impact->infectionsByRequestedTime = $result->impact->currentlyIntfected ** $factor;
+    $result->severeImpact->infectionsByRequestedTime = $result->severeImpact->currentlyIntfected ** $factor; 
 
   }elseif($result->data->periodType =="weeks"){
     $days = $_data->timeToElapse * 7;
     $factor = floor($days / 3);
-    $result->impact->infectionsByRequestedTime = $result->impact->currentlyIntfected * $factor; 
-    $result->severeImpact->infectionsByRequestedTime = $result->severeImpact->currentlyIntfected * $factor;
+    $result->impact->infectionsByRequestedTime = $result->impact->currentlyIntfected ** $factor; 
+    $result->severeImpact->infectionsByRequestedTime = $result->severeImpact->currentlyIntfected ** $factor;
 
   }else{
     $days = $_data->timeToElapse ;
     $factor = floor($days / 3);
-    $result->impact->infectionsByRequestedTime = $result->impact->currentlyIntfected * $factor; 
-    $result->severeImpact->infectionsByRequestedTime = $result->severeImpact->currentlyIntfected * $factor;
+    $result->impact->infectionsByRequestedTime = $result->impact->currentlyIntfected ** $factor; 
+    $result->severeImpact->infectionsByRequestedTime = $result->severeImpact->currentlyIntfected ** $factor;
 
   }
 
