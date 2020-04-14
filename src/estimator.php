@@ -37,10 +37,10 @@ function covid19ImpactEstimator($data)
   
   $_data = (object)$data;
 
-  $result = new stdClass(); 
-  $result->data         = new stdClass();
-  $result->impact       = new stdClass();
-  $result->severeImpact = new stdClass();
+  $result = array(); 
+  $result['data']       = $data;
+  $result['impact']       = array();
+  $result['severeImpact'] = array();
 
   // json_validator($data);
   // //if (!is_object(json_decode($data))) {
@@ -50,45 +50,36 @@ function covid19ImpactEstimator($data)
   //   exit(1);
   // }
 
-  $result->data = $data;
-  $result->impact->currentlyIntfected = $_data->reportedCases * 10; 
-  $result->severeImpact->currentlyIntfected = $_data->reportedCases * 50; 
+  $result['data'] = $data;
+  $result['impact']['currentlyIntfected'] = $data['reportedCases'] * 10; 
+  $result ['severeImpact']['currentlyIntfected'] = $data['reportedCases'] * 50; 
 
-  if($result->data['periodType'] =="months"){
-    $days = $result->data['timeToElapse'] * 30 ;//$_data->timeToElapse * 30;
+  if($result['data']['periodType'] =="months"){
+    $days = $result['data']['timeToElapse'] * 30 ;//$_data->timeToElapse * 30;
     $factor = floor($days / 3);
-    $result->impact->infectionsByRequestedTime =  $result->impact->currentlyIntfected ** $factor;
-    $result->severeImpact->infectionsByRequestedTime =  $result->severeImpact->currentlyIntfected  ** $factor; 
-    $result->impact->severeCasesByRequestedTime = $result->impact->infectionsByRequestedTime * 0.15;
-    $result->severeImpact->severeCasesByRequestedTime = $result->severeImpact->infectionsByRequestedTime * 0.15;;
-  }elseif($result->data['periodType'] =="weeks"){
+    $result['impact']['infectionsByRequestedTime'] =  $result['impact']['currentlyIntfected'] ** $factor;
+    $result['severeImpact']['infectionsByRequestedTime'] =  $result['severeImpact']['currentlyIntfected']  ** $factor; 
+    $result['impact']['severeCasesByRequestedTime'] = $result['impact']['infectionsByRequestedTime'] * 0.15;
+    $result['severeImpact']['severeCasesByRequestedTime'] = $result['severeImpact']['infectionsByRequestedTime'] * 0.15;
+  }elseif($result['data']['periodType'] =="weeks"){
     $days = $_data->timeToElapse * 7;
     $factor = floor($days / 3);
-    $result->impact->infectionsByRequestedTime = $result->impact->currentlyIntfected ** $factor; 
-    $result->severeImpact->infectionsByRequestedTime = $result->severeImpact->currentlyIntfected ** $factor;
-    $result->impact->severeCasesByRequestedTime = $result->impact->infectionsByRequestedTime * 0.15;
-    $result->severeImpact->severeCasesByRequestedTime = $result->severeImpact->infectionsByRequestedTime * 0.15;
+    $result['impact']['infectionsByRequestedTime'] =  $result['impact']['currentlyIntfected'] ** $factor;
+    $result['severeImpact']['infectionsByRequestedTime'] =  $result['severeImpact']['currentlyIntfected']  ** $factor; 
+    $result['impact']['severeCasesByRequestedTime'] = $result['impact']['infectionsByRequestedTime'] * 0.15;
+    $result['severeImpact']['severeCasesByRequestedTime'] = $result['severeImpact']['infectionsByRequestedTime'] * 0.15;
 
   }else{
     $days = $_data->timeToElapse ;
     $factor = floor($days / 3);
-    $result->impact->infectionsByRequestedTime = $result->impact->currentlyIntfected ** $factor; 
-    $result->severeImpact->infectionsByRequestedTime = $result->severeImpact->currentlyIntfected ** $factor;
-    $result->impact->severeCasesByRequestedTime = $result->impact->infectionsByRequestedTime * 0.15;
-    $result->severeImpact->severeCasesByRequestedTime = $result->severeImpact->infectionsByRequestedTime * 0.15;
+    $result['impact']['infectionsByRequestedTime'] =  $result['impact']['currentlyIntfected'] ** $factor;
+    $result['severeImpact']['infectionsByRequestedTime'] =  $result['severeImpact']['currentlyIntfected']  ** $factor; 
+    $result['impact']['severeCasesByRequestedTime'] = $result['impact']['infectionsByRequestedTime'] * 0.15;
+    $result['severeImpact']['severeCasesByRequestedTime'] = $result['severeImpact']['infectionsByRequestedTime'] * 0.15;
 
   }
 
 
 
-  return  array($result);
+  return  $result;
 }
-
-function json_validator($data=NULL) {
-  if (!empty($data)) {
-                @json_decode($data);
-                return (json_last_error() === JSON_ERROR_NONE);
-        }
-        return false;
-}
- 
