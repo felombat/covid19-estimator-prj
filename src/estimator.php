@@ -81,7 +81,7 @@ function covid19ImpactEstimator($data)
 
 
 
-  return  json_decode($result);
+  return  json_encode($result);
 }
 
 function json_validator($data=NULL) {
@@ -92,3 +92,26 @@ function json_validator($data=NULL) {
         return false;
 }
 
+$data = '{   "region":{
+      "name":"Africa",
+      "avgAge":19.7,
+      "avgDailyIncomeInUSD":5,
+      "avgDailyIncomePopulation":0.71
+   
+},
+   "periodType":"days",
+   "timeToElapse":58,
+   "reportedCases":674,
+   "population":66622705,
+   "totalHospitalBeds":1380614
+}'; 
+
+  //$_data = json_encode($data);
+
+$res = covid19ImpactEstimator(json_decode($data)); 
+
+ 
+
+var_dump($res); 
+
+//echo $page; 
