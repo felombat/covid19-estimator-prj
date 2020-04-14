@@ -109,7 +109,8 @@ function covid19ImpactEstimator($data)
   }
 
 
-  $result['estimate'] = $estimate; 
+  $result['estimate']['impact'] = $estimate['impact']; 
+  $result['estimate']['severeImpact'] = $estimate['severeImpact']; 
 
   return  $result;
 }
