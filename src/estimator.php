@@ -42,13 +42,13 @@ function covid19ImpactEstimator($data)
   $result->impact       = new stdClass();
   $result->severeImpact = new stdClass();
 
-  json_validator($data);
-  //if (!is_object(json_decode($data))) {
-  if(!json_validator($data) ){
-    $result->data = '{"error" :"Bad JSON Format"}';
-    return json_encode($result); 
-    exit(1);
-  }
+  // json_validator($data);
+  // //if (!is_object(json_decode($data))) {
+  // if(!json_validator($data) ){
+  //   $result->data = '{"error" :"Bad JSON Format"}';
+  //   return json_encode($result); 
+  //   exit(1);
+  // }
 
   $result->data = $_data;
   $result->impact->currentlyIntfected = $_data->reportedCases * 10; 
