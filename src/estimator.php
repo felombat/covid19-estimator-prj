@@ -41,6 +41,7 @@ function covid19ImpactEstimator($data)
   $result['data']       = $data;
   $result['impact']       = array();
   $result['severeImpact'] = array();
+  $result['currentlyInfected'] = array();
 
   // json_validator($data);
   // //if (!is_object(json_decode($data))) {
