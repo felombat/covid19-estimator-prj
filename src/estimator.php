@@ -52,12 +52,17 @@ function covid19ImpactEstimator($data)
   // }
 
   $result['data'] = $data;
+  $result['currentlyIntfected'] = $data['reportedCases']  ; 
   $result['currentlyIntfected']['impact'] = $data['reportedCases'] * 10; 
   $result['currentlyIntfected']['severeImpact'] = $data['reportedCases'] * 50; 
+
+  // 
+
 
   if($result['data']['periodType'] =="months"){
     $days = $result['data']['timeToElapse'] * 30 ;//$_data->timeToElapse * 30;
     $factor = floor($days / 3);
+    $result['infectionsByRequestedTime'] = $result['currentlyIntfected']['impact'] ** $factor;
     $result['infectionsByRequestedTime']['impact'] =  $result['currentlyIntfected']['impact'] ** $factor;
     $result['infectionsByRequestedTime']['severeImpact'] =  $result['currentlyIntfected']['severeImpact']  ** $factor; 
     $result['severeCasesByRequestedTime']['impact'] = $result['infectionsByRequestedTime']['impact'] * 0.15;
@@ -65,6 +70,7 @@ function covid19ImpactEstimator($data)
   }elseif($result['data']['periodType'] =="weeks"){
     $days = $_data->timeToElapse * 7;
     $factor = floor($days / 3);
+    $result['infectionsByRequestedTime'] = $result['currentlyIntfected']['impact'] ** $factor;
         $result['infectionsByRequestedTime']['impact'] =  $result['currentlyIntfected']['impact'] ** $factor;
     $result['infectionsByRequestedTime']['severeImpact'] =  $result['currentlyIntfected']['severeImpact']  ** $factor; 
     $result['severeCasesByRequestedTime']['impact'] = $result['infectionsByRequestedTime']['impact'] * 0.15;
@@ -72,6 +78,7 @@ function covid19ImpactEstimator($data)
   }else{
     $days = $_data->timeToElapse ;
     $factor = floor($days / 3);
+    $result['infectionsByRequestedTime'] = $result['currentlyIntfected']['impact'] ** $factor;
         $result['infectionsByRequestedTime']['impact'] =  $result['currentlyIntfected']['impact'] ** $factor;
     $result['infectionsByRequestedTime']['severeImpact'] =  $result['currentlyIntfected']['severeImpact']  ** $factor; 
     $result['severeCasesByRequestedTime']['impact'] = $result['infectionsByRequestedTime']['impact'] * 0.15;
