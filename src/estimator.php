@@ -39,9 +39,28 @@ function covid19ImpactEstimator($data)
 
   $result = array(); 
   $result['data']       = $data;
-  $result['impact']       = array();
-  $result['severeImpact'] = array();
-  $result['currentlyInfected'] = array();
+  $estimate['impact'] = [
+                            'currentlyIntfected' => 0,
+                            'infectionByRequestedtime' => 0,
+                            'serveCasesByRequestedtime' => 0,
+                            'hospitalBedsByRequestedtime' => 0,
+                            'casesForICUByRequestedtime' => 0,
+                            'casesForVentilatorsByRequestedtime' => 0,
+                            'currentlyIntfected' => 0,
+                            'dollarsInflight' => 0,
+                          ];
+
+  $estimate['severeImpact'] = [
+                            'currentlyIntfected' => 0,
+                            'infectionByRequestedtime' => 0,
+                            'serveCasesByRequestedtime' => 0,
+                            'hospitalBedsByRequestedtime' => 0,
+                            'casesForICUByRequestedtime' => 0,
+                            'casesForVentilatorsByRequestedtime' => 0,
+                            'currentlyIntfected' => 0,
+                            'dollarsInflight' => 0,
+                          ];
+  
 
   // json_validator($data);
   // //if (!is_object(json_decode($data))) {
@@ -51,41 +70,46 @@ function covid19ImpactEstimator($data)
   //   exit(1);
   // }
 
-  $result['data'] = $data;
-  $result['currentlyIntfected'] = $data['reportedCases']  ; 
-  $result['currentlyIntfected']['impact'] = $data['reportedCases'] * 10; 
-  $result['currentlyIntfected']['severeImpact'] = $data['reportedCases'] * 50; 
-
-  // 
+   
+  // Step 1 currentlyIntfected
+  $estimate['impact']['currentlyIntfected']       = $data['reportedCases'] * 10; 
+  $estimate['severeImpact']['currentlyIntfected'] = $data['reportedCases'] * 50; 
 
 
+  // Step 1 infectionsByRequestedTime
+   
   if($result['data']['periodType'] =="months"){
     $days = $result['data']['timeToElapse'] * 30 ;//$_data->timeToElapse * 30;
     $factor = floor($days / 3);
-    $result['infectionsByRequestedTime'] = $result['currentlyIntfected']['impact'] ** $factor;
-    $result['infectionsByRequestedTime']['impact'] =  $result['currentlyIntfected']['impact'] ** $factor;
-    $result['infectionsByRequestedTime']['severeImpact'] =  $result['currentlyIntfected']['severeImpact']  ** $factor; 
-    $result['severeCasesByRequestedTime']['impact'] = $result['infectionsByRequestedTime']['impact'] * 0.15;
-    $result['severeCasesByRequestedTime']['severeImpact'] = $result['infectionsByRequestedTime']['severeImpact'] * 0.15;
+    $estimate['impact']['infectionsByRequestedTime'] = $estimate['impact']['currentlyIntfected'] ** $factor;
+    $estimate['severeImpact']['infectionsByRequestedTime'] =  $estimate['severeImpact']['currentlyIntfected']  ** $factor;
+    
+    $estimate['impact']['severeCasesByRequestedTime']       = $estimate['impact']['infectionsByRequestedTime'] * 0.15;
+    $estimate['severeImpact']['severeCasesByRequestedTime'] = $estimate['severeImpact']['infectionsByRequestedTime'] * 0.15;
+
   }elseif($result['data']['periodType'] =="weeks"){
     $days = $_data->timeToElapse * 7;
     $factor = floor($days / 3);
-    $result['infectionsByRequestedTime'] = $result['currentlyIntfected']['impact'] ** $factor;
-        $result['infectionsByRequestedTime']['impact'] =  $result['currentlyIntfected']['impact'] ** $factor;
-    $result['infectionsByRequestedTime']['severeImpact'] =  $result['currentlyIntfected']['severeImpact']  ** $factor; 
-    $result['severeCasesByRequestedTime']['impact'] = $result['infectionsByRequestedTime']['impact'] * 0.15;
-    $result['severeCasesByRequestedTime']['severeImpact'] = $result['infectionsByRequestedTime']['severeImpact'] * 0.15;
+    $estimate['impact']['infectionsByRequestedTime'] = $estimate['impact']['currentlyIntfected'] ** $factor;
+    $estimate['severeImpact']['infectionsByRequestedTime'] =  $estimate['severeImpact']['currentlyIntfected']  ** $factor;
+    
+    $estimate['impact']['severeCasesByRequestedTime']       = $estimate['impact']['infectionsByRequestedTime'] * 0.15;
+    $estimate['severeImpact']['severeCasesByRequestedTime'] = $estimate['severeImpact']['infectionsByRequestedTime'] * 0.15;
+     
   }else{
     $days = $_data->timeToElapse ;
     $factor = floor($days / 3);
-    $result['infectionsByRequestedTime'] = $result['currentlyIntfected']['impact'] ** $factor;
-        $result['infectionsByRequestedTime']['impact'] =  $result['currentlyIntfected']['impact'] ** $factor;
-    $result['infectionsByRequestedTime']['severeImpact'] =  $result['currentlyIntfected']['severeImpact']  ** $factor; 
-    $result['severeCasesByRequestedTime']['impact'] = $result['infectionsByRequestedTime']['impact'] * 0.15;
-    $result['severeCasesByRequestedTime']['severeImpact'] = $result['infectionsByRequestedTime']['severeImpact'] * 0.15;
+    $estimate['impact']['infectionsByRequestedTime'] = $estimate['impact']['currentlyIntfected'] ** $factor;
+    $estimate['severeImpact']['infectionsByRequestedTime'] =  $estimate['severeImpact']['currentlyIntfected']  ** $factor;
+    
+    $estimate['impact']['severeCasesByRequestedTime']       = $estimate['impact']['infectionsByRequestedTime'] * 0.15;
+    $estimate['severeImpact']['severeCasesByRequestedTime'] = $estimate['severeImpact']['infectionsByRequestedTime'] * 0.15;
+ 
+     
   }
 
 
+  $result['estimate'] = $estimate; 
 
   return  $result;
 }
